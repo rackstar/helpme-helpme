@@ -61,7 +61,7 @@ gulp.task('nodemon', function (cb) {
   var called = false;
 
   var nodeOptions = {
-    script: './server/server.js',
+    script: 'index.js',
     delayTime: 1,
     ignore: [
       'Gulpfile.js',
