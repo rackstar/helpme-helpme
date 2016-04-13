@@ -18,9 +18,6 @@
     "url": "https://github.com/hrr14-hera/hrr14-hera/issues"
   },
   "homepage": "https://github.com/hrr14-hera/hrr14-hera#readme",
-  "scripts": {
-    "start": "gulp"
-  },
   "dependencies": {
     "body-parser": "^1.15.0",
     "dotenv": "^2.0.0",
