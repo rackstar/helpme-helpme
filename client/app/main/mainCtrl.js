@@ -51,7 +51,7 @@ function MainController($scope, $timeout, auth, Goals, Friend, Profile) {
     } else {
       goal.status = message.terrible;
     }
-  }
+  };
 
   // Minutes version for testing
   $scope.checkGoalsM = function(goal, friend) {
@@ -81,7 +81,7 @@ function MainController($scope, $timeout, auth, Goals, Friend, Profile) {
       } else {
         goal.status = message.terrible;
     }
-  }
+  };
 
   $scope.getInactiveFriends = function() {
     Friend.getInactiveFriends($scope.profile.user_id)
@@ -89,7 +89,7 @@ function MainController($scope, $timeout, auth, Goals, Friend, Profile) {
         $scope.friends = data;
         $scope.friends.forEach(function(friend) {
           $scope.checkGoalsM(friend, true);
-        })
+        });
       })
       .catch(function(error) {
         console.error(error);
@@ -111,7 +111,7 @@ function MainController($scope, $timeout, auth, Goals, Friend, Profile) {
             $scope.posts.push(post);
           });
         });
-        currentCount = Profile.countComment($scope.posts)
+        currentCount = Profile.countComment($scope.posts);
       })
       .catch(function(error) {
         console.error(error);

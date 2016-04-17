@@ -70,7 +70,7 @@ function ProfileController($scope, $timeout, auth, Profile) {
         return newCount;
       })
       .then(function(newCount) {
-        // check for any different in currentCount and newCount
+        // check for any difference in currentCount and newCount
         Profile.checkComment(currentCount, newCount, $scope.user.posts, newPosts);
       })
       .catch(function(error) {
