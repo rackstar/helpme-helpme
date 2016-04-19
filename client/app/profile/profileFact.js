@@ -59,16 +59,15 @@ function Profile($http) {
         });
     },
     // Helper method for updating comment array for a specific post after new comment submission
-    /*
-    * @param {Object} data - the post object that has a new comment
-    * @param currentPosts {Array} - an array of post objects
-    * [{
-    *   post: post,
-    *   comments: [{comment object}]
-    *   ..
-    * @param currentCount {Object} - object containing key value pair of posts and its number of comments
-    * { <post>: <comment count> }
-    */
+    // @param {Object} data - the post object that has a new comment
+    // @param currentPosts {Array} - an array of post objects
+    // [{
+    //   post: post,
+    //   comments: [{comment object}]
+    //   ...
+    // @param currentCount {Object} - object containing key value pair of posts and its number of comments
+    // { <post>: <comment count> }
+    //
     pushComment: function(data, currentPosts, currentCount) {
       for (var i = 0; i < currentPosts.length; i++) {
         var post = currentPosts[i];
@@ -86,18 +85,15 @@ function Profile($http) {
     },
 
     // Helper method returning comment counter object
-    /*
-    * @param posts {Array} - an array of post objects
-    * [{
-    *   post: post,
-    *   comments: [{comment object}]
-    *   ...
-    * },
-    * {...},{...}]
-    *
-    * @return {Object} - object containing key value pair of posts and its current number of comments
-    * { <post>: <comment count> }
-    */
+    // @param posts { Array } - an array of post objects
+    // [{
+    //   post: post,
+    //   comments: [{ comment object }]
+    //   ...
+    // }, {... }, {... }]
+    // @return { Object } - object containing key value pair of posts and its current number of comments
+    // { < post > : < comment count > }
+    //
     countComment: function(posts) {
       var count = {};
       posts.forEach(function(post) {
@@ -106,49 +102,53 @@ function Profile($http) {
       return count;
     },
 
+    // Helper method to add new comments from other users in comment array. Used by checkComment helper method below.
+    // @param {Array} currentPosts - an array of current posts object
+    // @param {Array} newPosts - an array of posts object containing new comments
+    // @param {String} post - the name of the post that needs to be updated
+    updateComments: function(currentCount, currentPosts, newPosts, post) {
+      for (var i = 0; i < currentPosts.length; i++) {
+        var postObj = currentPosts[i];
+        // find the post that needs to be updated
+        if (postObj.post === post) {
+          // find the new comment in newPosts
+          var lastIndex = newPosts[i].comments.length - 1;
+          var newComment = newPosts[i].comments[lastIndex];
+          // push new comment
+          postObj.comments.push(newComment);
+          // update currentCount
+          ++currentCount[post];
+        };
+      }
+    },
+
     // Helper method for live updating of comments arrays for all posts
-    /*
-    * @param currentCount {Object} - object containing key value pair of posts and its number of comments
-    * { <post>: <comment count> }
-    *
-    * @param newCount {Object} - object containing key value pair of posts and its number of comments
-    * { <post>: <comment count> }
-    * 
-    * @param currentPosts {Array} - an array of post objects
-    * [{
-    *   post: post
-    *   comments [{comment object}]
-    *   ...
-    * },
-    * {...},{...}]
-    *
-    * @param newPosts {Array} - an array of posts objects
-    * [{
-    *   post: post,
-    *   comments: [{comment object}]
-    *   ...
-    * },
-    * {...},{...}]
-    */
+    // @param currentCount { Object } - object containing key value pair of posts and its number of comments
+    // { < post > : < comment count > }
+    //
+    // @param newCount { Object } - object containing key value pair of posts and its number of comments
+    // { < post > : < comment count > }
+    //
+    // @param currentPosts { Array } - an array of current post objects
+    // [{
+    //  post: post
+    //  comments: [{ comment object }]
+    //  ...
+    //  }, {... }, {... }]
+    //  @param newPosts { Array } - an array of posts objects containing new comments
+    // [{
+    //   post: post,
+    //   comments: [{ comment object }]
+    //   ...
+    //  }, {... }, {... }]
+    //
     checkComment: function(currentCount, newCount, currentPosts, newPosts) {
       for (var post in newCount) {
-        // check for any difference in new and current count
+        // update comments if there are any difference in new and current count
         if (newCount[post] !== currentCount[post]) {
-          for (var i = 0; i < currentPosts.length; i++) {
-            var postObj = currentPosts[i];
-            // find the post that needs to be updated
-            if (postObj.post === post) {
-              // find the new comment in newPosts
-              var lastIndex = newPosts[i].comments.length - 1;
-              var newComment = newPosts[i].comments[lastIndex];
-              // push new comment
-              postObj.comments.push(newComment);
-              // update currentCount
-              currentCount[post] = newCount[post];
-            }
-          }
+          this.updateComments(currentCount, currentPosts, newPosts, post);
         }
       }
     }
   };
-}
+};
